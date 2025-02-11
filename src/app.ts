@@ -18,8 +18,8 @@ const getAController = (req: Request, res: Response) => {
 
 app.get('/', getAController);
 
-app.listen(config.port, () => {
-  console.log(`Example app listening on port ${config.port}`);
-});
+// app.listen(config.port, () => {
+//   console.log(`Example app listening on port ${config.port}`);
+// });
 
 export default app;
