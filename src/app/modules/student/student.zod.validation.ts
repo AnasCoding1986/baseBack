@@ -2,9 +2,10 @@ import { z } from 'zod';
 
 const UserNameSchema = z.object({
     firstName: z.string().min(1, 'First name is required'),
-    middleName: z.string().optional(),
+    middleName: z.string().default(""), // Provide a default empty string
     lastName: z.string().min(1, 'Last name is required'),
 });
+
 
 const GuardianSchema = z.object({
     fatherName: z.string().min(1, 'Father name is required'),
@@ -22,7 +23,7 @@ const LocalGuardianSchema = z.object({
     address: z.string().min(1, 'Local guardian address is required'),
 });
 
-const StudentSchema = z.object({
+const StudentValidationZodSchema = z.object({
     id: z.string().min(1, 'ID is required'),
     name: UserNameSchema,
     gender: z.enum(['male', 'female']),
@@ -39,4 +40,4 @@ const StudentSchema = z.object({
     isActive: z.boolean().default(true),
 });
 
-export default StudentSchema;
+export default StudentValidationZodSchema;
