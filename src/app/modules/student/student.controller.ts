@@ -12,7 +12,7 @@ const createStudent = async(req:Request, res:Response) => {
     
         res.status(200).json({
             success:true,
-            message:"Warrior Student is created successfully",
+            message:"Warrior 2 Student is created successfully",
             data:result
         })
     } catch (error) {
