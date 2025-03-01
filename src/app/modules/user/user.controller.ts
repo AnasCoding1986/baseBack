@@ -1,7 +1,13 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserServices } from './user.service';
+import sendResponse from '../../middlewire/sendResponse';
+import httpStatus from 'http-status';
 
-const createStudent = async (req: Request, res: Response) => {
+const createStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { password, student: studentData } = req.body;
 
@@ -12,13 +18,17 @@ const createStudent = async (req: Request, res: Response) => {
       studentData,
     );
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
       success: true,
-      message:
-        'Warrior 2 (conceptual craking start triling) Student is created successfully',
+      message: 'Student is created successfully',
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
+};
+
+export const userController = {
+  createStudent,
 };
