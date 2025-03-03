@@ -1,43 +1,31 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { studentServices } from './student.service';
+import sendResponse from '../../middlewire/sendResponse';
+import httpStatus from 'http-status';
+import catchAsync from '../../utils/catchAsync';
 
-const getAllStudents = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const result = await studentServices.getAllStudentFromDB();
-
-    res.status(200).json({
-      success: true,
-      message: 'Students are retrived successfully',
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-const getSingleStudent = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const getSingleStudent = catchAsync(async (req, res) => {
   const { studentID } = req.params;
+  const result = await studentServices.getSingleStudentFromDB(studentID);
 
-  try {
-    const result = await studentServices.getSingleStudentFromDB(studentID);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student is retrived successfully',
+    data: result,
+  });
+});
 
-    res.status(200).json({
-      success: true,
-      message: 'Student is retrived for survive successfully',
-      data: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+const getAllStudents = catchAsync(async (req, res) => {
+  const result = await studentServices.getAllStudentFromDB();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Students are retrived successfully',
+    data: result,
+  });
+});
 
 export const studentController = {
   getAllStudents,
